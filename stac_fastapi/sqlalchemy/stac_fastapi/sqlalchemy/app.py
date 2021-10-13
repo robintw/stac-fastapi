@@ -6,6 +6,7 @@ from stac_fastapi.extensions.core import (
     SortExtension,
     TransactionExtension,
 )
+from stac_fastapi.extensions.core.context import ContextExtension
 from stac_fastapi.extensions.third_party import BulkTransactionExtension
 from stac_fastapi.sqlalchemy.config import SqlalchemySettings
 from stac_fastapi.sqlalchemy.core import CoreCrudClient
@@ -15,6 +16,8 @@ from stac_fastapi.sqlalchemy.transactions import (
     TransactionsClient,
 )
 from stac_fastapi.sqlalchemy.types.search import SQLAlchemySTACSearch
+
+from fastapi.middleware.cors import CORSMiddleware
 
 settings = SqlalchemySettings()
 session = Session.create_from_settings(settings)
@@ -28,9 +31,11 @@ api = StacApi(
         FieldsExtension(),
         QueryExtension(),
         SortExtension(),
+        ContextExtension()
     ],
     client=CoreCrudClient(session=session),
     search_request_model=SQLAlchemySTACSearch,
+    middlewares=[lambda app: CORSMiddleware(app, allow_origins=["*"])]
 )
 app = api.app
 
