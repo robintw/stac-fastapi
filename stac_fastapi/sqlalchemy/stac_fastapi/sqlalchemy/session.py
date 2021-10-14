@@ -29,7 +29,7 @@ class FastAPISessionMaker(_FastAPISessionMaker):
                 raise errors.ConflictError("resource already exists") from e
             elif isinstance(e.orig, psycopg2.errors.ForeignKeyViolation):
                 raise errors.ForeignKeyError("collection does not exist") from e
-            logger.error(e, exc_info=True)
+            logging.error(e, exc_info=True)
             raise errors.DatabaseError("unhandled database error")
 
 
