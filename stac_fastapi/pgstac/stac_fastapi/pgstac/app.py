@@ -50,9 +50,6 @@ async def shutdown_event():
     """Close database connection."""
     await close_db_connection(app)
 
-app.on_startup = startup_event
-app.on_shutdown = shutdown_event
-
 def run():
     """Run app from command line using uvicorn if available."""
     try:
