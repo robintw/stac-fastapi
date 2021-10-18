@@ -8,11 +8,14 @@ from stac_fastapi.extensions.core import (
     SortExtension,
     TransactionExtension,
 )
+from stac_fastapi.extensions.core.context import ContextExtension
 from stac_fastapi.pgstac.config import Settings
 from stac_fastapi.pgstac.core import CoreCrudClient
 from stac_fastapi.pgstac.db import close_db_connection, connect_to_db
 from stac_fastapi.pgstac.transactions import TransactionsClient
 from stac_fastapi.pgstac.types.search import PgstacSearch
+
+from fastapi.middleware.cors import CORSMiddleware
 
 settings = Settings()
 
@@ -27,10 +30,12 @@ api = StacApi(
         QueryExtension(),
         SortExtension(),
         FieldsExtension(),
+        ContextExtension()
     ],
     client=CoreCrudClient(),
     search_request_model=PgstacSearch,
     response_class=ORJSONResponse,
+    middlewares=[lambda app: CORSMiddleware(app, allow_origins=["*"])]
 )
 app = api.app
 
