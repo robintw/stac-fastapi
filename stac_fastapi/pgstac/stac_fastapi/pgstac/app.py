@@ -50,9 +50,8 @@ async def shutdown_event():
     """Close database connection."""
     await close_db_connection(app)
 
-# loop = asyncio.get_event_loop()
-# asyncio.ensure_future(startup_event())
 app.on_startup = startup_event
+app.on_shutdown = shutdown_event
 
 def run():
     """Run app from command line using uvicorn if available."""
