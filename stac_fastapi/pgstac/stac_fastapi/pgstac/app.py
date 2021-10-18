@@ -1,6 +1,6 @@
 """FastAPI application using PGStac."""
 from fastapi.responses import ORJSONResponse
-
+import asyncio
 from stac_fastapi.api.app import StacApi
 from stac_fastapi.extensions.core import (
     FieldsExtension,
@@ -40,7 +40,7 @@ api = StacApi(
 app = api.app
 
 
-@app.on_event("startup")
+# @app.on_event("startup")
 async def startup_event():
     """Connect to database on startup."""
     await connect_to_db(app)
@@ -50,6 +50,9 @@ async def startup_event():
 async def shutdown_event():
     """Close database connection."""
     await close_db_connection(app)
+
+# loop = asyncio.get_event_loop()
+asyncio.ensure_future(startup_event())
 
 
 def run():
