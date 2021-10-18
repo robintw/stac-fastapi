@@ -39,8 +39,7 @@ api = StacApi(
 )
 app = api.app
 
-
-# @app.on_event("startup")
+@app.on_event("startup")
 async def startup_event():
     """Connect to database on startup."""
     await connect_to_db(app)
@@ -52,8 +51,8 @@ async def shutdown_event():
     await close_db_connection(app)
 
 # loop = asyncio.get_event_loop()
-asyncio.ensure_future(startup_event())
-
+# asyncio.ensure_future(startup_event())
+app.on_startup = startup_event
 
 def run():
     """Run app from command line using uvicorn if available."""
