@@ -2,7 +2,7 @@
 
 import json
 from typing import Optional
-from sqlalchemy.sql import func
+
 import geoalchemy2 as ga
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import JSONB
@@ -17,10 +17,6 @@ class GeojsonGeometry(ga.Geometry):
     """Custom geoalchemy type which returns GeoJSON."""
 
     from_text = "ST_GeomFromGeoJSON"
-
-    def bind_expression(self, bindvalue):
-        return func.ST_SetSRID(func.ST_GeomFromGeoJSON(bindvalue, type_=self), 4326)
-        # return getattr(func, self.from_text)(bindvalue, type_=self)
 
     def result_processor(self, dialect: str, coltype):
         """Override default processer to return GeoJSON."""
