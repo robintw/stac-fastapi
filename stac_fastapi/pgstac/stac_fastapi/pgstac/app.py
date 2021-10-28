@@ -7,6 +7,7 @@ from stac_fastapi.extensions.core import (
     QueryExtension,
     SortExtension,
     TransactionExtension,
+    FilterExtension
 )
 from stac_fastapi.extensions.core.context import ContextExtension
 from stac_fastapi.pgstac.config import Settings
@@ -30,7 +31,8 @@ api = StacApi(
         QueryExtension(),
         SortExtension(),
         FieldsExtension(),
-        ContextExtension()
+        ContextExtension(),
+        FilterExtension()
     ],
     client=CoreCrudClient(),
     search_request_model=PgstacSearch,
