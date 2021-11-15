@@ -149,7 +149,7 @@ class CoreCrudClient(AsyncBaseCoreClient):
                     collection_id=feature["collection"],
                     item_id=feature["id"],
                     request=request,
-                ).get_links()
+                ).get_links(feature['links'])
                 feature["links"] = links
                 exclude = search_request.fields.exclude
                 if exclude and len(exclude) == 0:
